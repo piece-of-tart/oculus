@@ -7,10 +7,11 @@ import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public final class StackOverflowParser extends Parser {
+public final class StackOverflowParser extends AbstractParser {
     private final static Pattern pattern = Pattern.compile("^/questions/([^/]+)/?.*$");
-    public StackOverflowParser(Parser successor) {
-        setSuccessor(successor);
+
+    public StackOverflowParser(Parser next) {
+        super(next);
     }
 
     @Override
@@ -18,8 +19,7 @@ public final class StackOverflowParser extends Parser {
         if (canHandleUrl(url, "stackoverflow.com")) {
             Matcher matcher = pattern.matcher(url.getPath());
             return matcher.matches() ? new StackOverflowValue(matcher.group(1)) : null;
-        } else {
-            return super.parse(url);
         }
+        return parseNext(url);
     }
 }

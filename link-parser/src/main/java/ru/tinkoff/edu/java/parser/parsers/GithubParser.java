@@ -7,12 +7,12 @@ import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public final class GithubParser extends Parser {
+public final class GithubParser extends AbstractParser {
     private final static Pattern pattern = Pattern.compile("^/([^/]+)/([^/]+)/?.*$");
-    public GithubParser(Parser successor) {
-        setSuccessor(successor);
-    }
 
+    public GithubParser(Parser next) {
+        super(next);
+    }
     @Override
     public Value parse(URL url) {
         if (canHandleUrl(url, "github.com")) {
@@ -21,8 +21,7 @@ public final class GithubParser extends Parser {
                 return new GithubValue(matcher.group(1), matcher.group(2));
             }
             return null;
-        } else {
-            return super.parse(url);
         }
+        return parseNext(url);
     }
 }
