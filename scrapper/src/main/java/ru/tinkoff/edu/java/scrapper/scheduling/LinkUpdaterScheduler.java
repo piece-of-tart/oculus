@@ -12,7 +12,7 @@ import java.util.Calendar;
 public class LinkUpdaterScheduler {
     private static final Logger logger = LoggerFactory.getLogger(LinkUpdaterScheduler.class);
 
-    @Scheduled(fixedDelayString = "#{scheduler.getInterval()}")
+    @Scheduled(fixedDelayString = "#{@getScheduler.interval.toMillis()}")
     public void update() {
         logger.info("Update " + Calendar.getInstance().toString());
     }

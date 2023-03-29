@@ -9,9 +9,10 @@ import ru.tinkoff.edu.java.scrapper.dto.StackOverflowResponse;
 @Component
 public class StackOverflowClient {
     private final WebClient webClient;
+    private final static String baseUrl = "https://api.stackexchange.com";
 
     public StackOverflowClient() {
-        this("https://api.stackexchange.com");
+        this(baseUrl);
     }
 
     public StackOverflowClient(String baseUrl) {

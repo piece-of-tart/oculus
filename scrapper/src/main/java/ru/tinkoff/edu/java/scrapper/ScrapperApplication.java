@@ -15,9 +15,6 @@ public class ScrapperApplication {
         var ctx = SpringApplication.run(ScrapperApplication.class, args);
         ApplicationConfig config = ctx.getBean(ApplicationConfig.class);
         System.out.println(config);
-
-//        StackOverflowClient stackOverflowClient = new StackOverflowClient();
-//        System.out.println(stackOverflowClient.getQuestion("8484025").block());
     }
 
 }
