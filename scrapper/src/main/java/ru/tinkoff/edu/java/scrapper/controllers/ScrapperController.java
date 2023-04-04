@@ -1,6 +1,8 @@
 package ru.tinkoff.edu.java.scrapper.controllers;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,28 +19,26 @@ import ru.tinkoff.edu.java.scrapper.dto.RemoveLinkRequest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
+@Log4j2
 @RestController
 @RequestMapping("/")
 @RequiredArgsConstructor
 public class ScrapperController {
     final private Map<Long, List<LinkResponse>> observingLinks = new HashMap<>();
 
-    final private Set<Long> chats = new HashSet<>();
-
     @PostMapping("/tg-chat/{id}")
     public ResponseEntity<String> registerChat(@PathVariable Long id) {
-        chats.add(id);
-        return ResponseEntity.ok("Chat for id " + id + " registered.");
+        boolean wasRegistered = observingLinks.putIfAbsent(id, new ArrayList<>()) != null;
+        return wasRegistered ? ResponseEntity.ok("User with id=" + id + " was registered before.") :
+            ResponseEntity.ok("Chat for id " + id + " registered.");
     }
 
     @DeleteMapping("/tg-chat/{id}")
     public ResponseEntity<? super Object> deleteChat(@PathVariable Long id) {
-        if (chats.remove(id)) {
+        if (observingLinks.remove(id) != null) {
             return ResponseEntity.ok("Chat " + id + " deleted.");
         }
         return ResponseEntity.badRequest().body(ExceptionApiHandler.getApiErrorResponse("The chat doesn't exist.", "404",
@@ -47,7 +47,10 @@ public class ScrapperController {
 
     @GetMapping("/links")
     public ListLinksResponse getObservingLinks(@RequestHeader("Tg-Chat-Id") Long id) {
-        observingLinks.putIfAbsent(id, new ArrayList<>());
+        if (observingLinks.get(id) == null) {
+            log.error("User with id=" + id + " passed away registration and request list of tracked links from scrapper.");
+            observingLinks.put(id, new ArrayList<>());
+        }
         return new ListLinksResponse(observingLinks.get(id), observingLinks.get(id).size());
     }
 

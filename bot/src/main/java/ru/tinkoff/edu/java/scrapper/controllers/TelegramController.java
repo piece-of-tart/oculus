@@ -21,13 +21,15 @@ import java.util.List;
 @Log4j2
 @Component
 @Controller
-public class TelegramController extends TelegramLongPollingBot implements MessageSender {
+public class TelegramController extends TelegramLongPollingBot implements TelegramMessageSender {
     final private TelegramConfiguration telegramConfiguration;
+    final private CommandHandler commandHandler;
 
     @Autowired
-    public TelegramController(TelegramConfiguration telegramConfiguration) {
+    public TelegramController(TelegramConfiguration telegramConfiguration, CommandHandler commandHandler) {
         super(new DefaultBotOptions(), telegramConfiguration.getBotToken());
         this.telegramConfiguration = telegramConfiguration;
+        this.commandHandler = commandHandler;
         setCommandMenu();
     }
 
@@ -52,7 +54,7 @@ public class TelegramController extends TelegramLongPollingBot implements Messag
         if (update.hasMessage()) {
             final Message message = update.getMessage();
             if (message.hasText()) {
-                CommandHandler.commandHandle(message).forEach(this::sendMessage);
+                commandHandler.commandHandle(message).forEach(this::sendMessage);
             }
         }
     }
