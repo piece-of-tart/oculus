@@ -5,8 +5,6 @@ target/
 !**/src/test/**/target/
 mvnw*
 .mvn
-scrapper/src/main/resources/application.properties
-
 
 ### STS ###
 .apt_generated

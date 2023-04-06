@@ -16,5 +16,4 @@ public class ScrapperApplication {
         ApplicationConfig config = ctx.getBean(ApplicationConfig.class);
         System.out.println(config);
     }
-
 }

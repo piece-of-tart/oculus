@@ -9,6 +9,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import ru.tinkoff.edu.java.scrapper.dto.ApiErrorResponse;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 @RestControllerAdvice
 public class ExceptionApiHandler {

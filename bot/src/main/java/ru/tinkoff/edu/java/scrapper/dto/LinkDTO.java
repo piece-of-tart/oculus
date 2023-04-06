@@ -2,6 +2,5 @@ package ru.tinkoff.edu.java.scrapper.dto;
 
 import java.net.URI;
 
-public record RemoveLinkRequest(URI uri) {
-
+public record LinkDTO(URI uri) {
 }
