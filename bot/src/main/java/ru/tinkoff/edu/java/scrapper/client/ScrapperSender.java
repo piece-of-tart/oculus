@@ -1,8 +1,7 @@
-package ru.tinkoff.edu.java.scrapper.controllers;
+package ru.tinkoff.edu.java.scrapper.client;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -13,13 +12,12 @@ import ru.tinkoff.edu.java.scrapper.dto.RemoveLinkRequest;
 
 import java.util.Objects;
 
-
 @Component
 public class ScrapperSender {
     private final WebClient webClient;
 
-    public ScrapperSender(@Value("${scrapper.baseUrl}") String scrapperBaseUrl) {
-        this.webClient = WebClient.builder().baseUrl(scrapperBaseUrl).build();
+    public ScrapperSender(@Value("${scrapper.baseUrl}") String baseUrl) {
+        this.webClient = WebClient.builder().baseUrl(baseUrl).build();
     }
 
     public ListLinksResponse getLinksByChatId(long chatId) {
@@ -39,8 +37,7 @@ public class ScrapperSender {
                 .block(), "User with id=" + chatId + " was registered before.");
     }
 
-    public String addNewTrackedLink(long chatId, String url) {
-        AddLinkRequest addLinkRequest = new AddLinkRequest(url);
+    public String addNewTrackedLink(long chatId, AddLinkRequest addLinkRequest) {
         try {
             return webClient.post()
                     .uri("/links")
@@ -54,8 +51,7 @@ public class ScrapperSender {
         }
     }
 
-    public String deleteTrackedLink(long chatId, String url) {
-        RemoveLinkRequest removeLinkRequest = new RemoveLinkRequest(url);
+    public String deleteTrackedLink(long chatId, RemoveLinkRequest removeLinkRequest) {
         try {
             return webClient.method(HttpMethod.DELETE)
                     .uri("/links")
@@ -65,7 +61,7 @@ public class ScrapperSender {
                     .bodyToMono(String.class)
                     .block();
         } catch (WebClientResponseException e) {
-            return "Link " + url + " doesn't exist.";
+            return "Link " + removeLinkRequest.uri() + " doesn't exist.";
         }
     }
 }

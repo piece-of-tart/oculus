@@ -1,4 +1,6 @@
 package ru.tinkoff.edu.java.scrapper.dto;
 
-public record LinkDTO(String url) {
+import java.net.URI;
+
+public record LinkDTO(URI uri) {
 }

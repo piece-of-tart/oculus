@@ -2,7 +2,6 @@ package ru.tinkoff.edu.java.scrapper.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,7 +55,7 @@ public class ScrapperController {
 
     @PostMapping("/links")
     public LinkResponse addObservingLink(@RequestHeader("Tg-Chat-Id") Long id, @RequestBody AddLinkRequest addLinkRequest) {
-        final LinkResponse linkResponse = new LinkResponse(id, addLinkRequest.url());
+        final LinkResponse linkResponse = new LinkResponse(id, addLinkRequest.uri());
         observingLinks.putIfAbsent(id, new ArrayList<>());
         observingLinks.get(id).add(linkResponse);
         return linkResponse;
@@ -64,11 +63,11 @@ public class ScrapperController {
 
     @DeleteMapping("/links")
     public Object deleteObservingLink(@RequestHeader("Tg-Chat-Id") Long id, @RequestBody RemoveLinkRequest removeLinkRequest) {
-        if (!observingLinks.containsKey(id) || !observingLinks.get(id).remove(new LinkResponse(id, removeLinkRequest.url()))) {
+        if (!observingLinks.containsKey(id) || !observingLinks.get(id).remove(new LinkResponse(id, removeLinkRequest.uri()))) {
             return ResponseEntity.badRequest().body(
-                    ExceptionApiHandler.getApiErrorResponse("Link " + removeLinkRequest.url() + " doesn't exist.", "404",
-                    new RuntimeException("Link " + removeLinkRequest.url() + " doesn't exist.")));
+                    ExceptionApiHandler.getApiErrorResponse("Link " + removeLinkRequest.uri() + " doesn't exist.", "404",
+                    new RuntimeException("Link " + removeLinkRequest.uri() + " doesn't exist.")));
         }
-        return new LinkResponse(id, removeLinkRequest.url());
+        return new LinkResponse(id, removeLinkRequest.uri());
     }
 }
