@@ -1,0 +1,11 @@
+{
+  "groups": [
+    {
+      "name": "",
+      "type": "ru.tinkoff.edu.java.scrapper.configuration.ApplicationConfig",
+      "sourceType": "ru.tinkoff.edu.java.scrapper.configuration.ApplicationConfig"
+    }
+  ],
+  "properties": [],
+  "hints": []
+}
