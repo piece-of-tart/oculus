@@ -19,7 +19,7 @@ import java.sql.SQLException;
 public class IntegrationEnvironment {
     static final PostgreSQLContainer<?> POSTGRES_SQL_CONTAINER;
     static final String configFileName = "master.xml";
-    static final Path relativePathToConfigFile = Path.of(".").getParent().getParent().resolve("migrations/");
+    static final Path pathToConfigFile = Path.of("./").toAbsolutePath().getParent().getParent().resolve("migrations/");
 
     static {
         POSTGRES_SQL_CONTAINER = new PostgreSQLContainer<>("postgres:14");
@@ -34,7 +34,7 @@ public class IntegrationEnvironment {
             Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
             Liquibase liquibase = new Liquibase(
                     configFileName,
-                    new DirectoryResourceAccessor(relativePathToConfigFile),
+                    new DirectoryResourceAccessor(pathToConfigFile),
                     database
             );
             liquibase.update(new Contexts(), new LabelExpression());

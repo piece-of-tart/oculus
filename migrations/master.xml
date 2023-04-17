@@ -9,5 +9,5 @@
         http://www.liquibase.org/xml/ns/dbchangelog-ext
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <include file="scheme.sql"/>
+    <include file="changelog/init_tables.sql"/>
 </databaseChangeLog>
