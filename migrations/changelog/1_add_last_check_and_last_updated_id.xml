@@ -9,7 +9,14 @@
         http://www.liquibase.org/xml/ns/dbchangelog-ext
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <include file="changelog/0_init_tables.sql"/>
-    <include file="changelog/1_add_last_check_and_last_updated_id.xml"/>
+    <changeSet id="1" author="michaelB">
+        <addColumn tableName="link">
+            <column name="last_updated_id" type="BIGINT"/>
+        </addColumn>
+
+        <addColumn tableName="link">
+            <column name="last_checked" type="timestamp" defaultValue="current_timestamp"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

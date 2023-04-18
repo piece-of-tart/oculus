@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.tinkoff.edu.java.scrapper.dto.AddLinkRequest;
-import ru.tinkoff.edu.java.scrapper.dto.LinkResponse;
-import ru.tinkoff.edu.java.scrapper.dto.ListLinksResponse;
-import ru.tinkoff.edu.java.scrapper.dto.RemoveLinkRequest;
+import ru.tinkoff.edu.java.scrapper.dto.request.AddLinkRequest;
+import ru.tinkoff.edu.java.scrapper.dto.response.LinkResponse;
+import ru.tinkoff.edu.java.scrapper.dto.response.ListLinksResponse;
+import ru.tinkoff.edu.java.scrapper.dto.request.RemoveLinkRequest;
 
 import java.util.ArrayList;
 import java.util.HashMap;

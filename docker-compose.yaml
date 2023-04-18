@@ -7,7 +7,7 @@ services:
     environment:
       - POSTGRES_USER=michaelbbb
       - POSTGRES_PASSWORD=test_root_password
-      - POSTGRES_DB=oculus-scrapper
+      - POSTGRES_DB=scrapper
     volumes:
       - ./migrations/pg-scrapper-data:/var/lib/postgresql/data/
     ports:

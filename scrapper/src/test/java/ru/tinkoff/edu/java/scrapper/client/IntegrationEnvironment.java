@@ -17,7 +17,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class IntegrationEnvironment {
-    static final PostgreSQLContainer<?> POSTGRES_SQL_CONTAINER;
+    protected static final PostgreSQLContainer<?> POSTGRES_SQL_CONTAINER;
     static final String configFileName = "master.xml";
     static final Path pathToConfigFile = Path.of("./").toAbsolutePath().getParent().getParent().resolve("migrations/");
 
