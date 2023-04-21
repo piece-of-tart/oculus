@@ -4,7 +4,7 @@ import lombok.extern.log4j.Log4j2;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.tinkoff.edu.java.scrapper.client.ScrapperSender;
-import ru.tinkoff.edu.java.scrapper.dto.AddLinkRequest;
+import ru.tinkoff.edu.java.scrapper.dto.request.AddLinkRequest;
 
 import java.net.URI;
 import java.net.URISyntaxException;

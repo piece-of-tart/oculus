@@ -1,5 +1,6 @@
 package ru.tinkoff.edu.java.scrapper.tg.commands;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -9,6 +10,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
+@Log4j2
 public class HelpCommand extends AbstractCommand {
 
     private static final String response = Map.of(
@@ -32,6 +34,7 @@ public class HelpCommand extends AbstractCommand {
         sendMessage.setChatId(message.getChatId());
         sendMessage.setText(response);
         isDone = true;
+        log.info("Ready to send message in helpCommand");
         return sendMessage;
     }
 }

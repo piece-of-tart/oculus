@@ -1,5 +1,6 @@
 package ru.tinkoff.edu.java.scrapper.tg;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -21,6 +22,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Component
+@Log4j2
 public class CommandHandler {
     private final Map<Long, AbstractCommand> lastCommandByChatId = new HashMap<>();
     private final Set<Long> registeredChatIds = new HashSet<>();

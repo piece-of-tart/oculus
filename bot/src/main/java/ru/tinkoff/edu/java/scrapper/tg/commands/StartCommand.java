@@ -12,11 +12,11 @@ public class StartCommand extends AbstractCommand {
     @Override
     public SendMessage handle(Message message) {
         Long chatId = message.getChatId();
-        boolean wasRegisteredBefore = scrapperSender.registerNewUser(chatId);
+        String wasRegisteredBefore = scrapperSender.registerNewUser(chatId);
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
-        sendMessage.setText("User with name " + message.getFrom().getUserName() +
-                (wasRegisteredBefore ?  " already exists." : " successfully registered."));
+        sendMessage.setText("User with name " + message.getFrom().getUserName() + " " +
+                wasRegisteredBefore);
         isDone = true;
         return sendMessage;
     }

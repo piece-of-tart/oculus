@@ -11,5 +11,7 @@
 
     <include file="changelog/0_init_tables.sql"/>
     <include file="changelog/1_add_last_check_and_last_updated_id.xml"/>
+    <include file="changelog/2_add_table_of_link_types.xml"/>
+    <include file="changelog/3_add_constraint_in_link_type_and_add_github_stackoverflow.xml"/>
 
 </databaseChangeLog>

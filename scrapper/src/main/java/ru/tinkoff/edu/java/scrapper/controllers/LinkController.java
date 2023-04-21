@@ -1,6 +1,8 @@
 package ru.tinkoff.edu.java.scrapper.controllers;
 
-import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,23 +18,27 @@ import ru.tinkoff.edu.java.scrapper.dto.response.LinkResponse;
 import ru.tinkoff.edu.java.scrapper.service.LinkService;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Objects;
 
 @RestController
+@Log4j2
 @RequestMapping("/links")
-@RequiredArgsConstructor
 public class LinkController {
     private final LinkService linkService;
+
+    @Autowired
+    public LinkController(@Qualifier(value = "jdbcLinkService") LinkService linkService) {
+        this.linkService = linkService;
+    }
 
     @GetMapping
     public ResponseEntity<? super Object> getTrackedLink(@RequestHeader("Tg-Chat-Id") Long tgChatId) {
         Collection<LinkEntity> linkEntities = linkService.listAll(tgChatId);
-        if (linkEntities == null) {
-            return ResponseEntity.badRequest().body("There is no links for chat with id " + tgChatId);
-        }
-        return ResponseEntity.ok(linkEntities);
+        return ResponseEntity.ok(Objects.requireNonNullElse(linkEntities, Collections.EMPTY_LIST));
     }
 
-    @PostMapping("/links")
+    @PostMapping
     public ResponseEntity<? super LinkResponse> addTrackedLink(@RequestHeader("Tg-Chat-Id") Long tgChatId, @RequestBody AddLinkRequest addLinkRequest) {
         final LinkEntity linkEntity = new LinkEntity(addLinkRequest.uri(), tgChatId, addLinkRequest.description(), 0L, null);
         if (linkService.get(tgChatId, linkEntity.uri()) != null) {
@@ -42,7 +48,7 @@ public class LinkController {
         return ResponseEntity.ok(new LinkResponse(retLinkEntity.chatId(), retLinkEntity.uri()));
     }
 
-    @DeleteMapping("/links")
+    @DeleteMapping
     public ResponseEntity<? super LinkResponse> deleteTrackedLink(@RequestHeader("Tg-Chat-Id") Long tgChatId, @RequestBody RemoveLinkRequest removeLinkRequest) {
         final LinkEntity linkEntity = linkService.remove(tgChatId, removeLinkRequest.uri());
         if (linkEntity == null) {

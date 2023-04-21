@@ -1,18 +1,22 @@
 package ru.tinkoff.edu.java.scrapper.client;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
-import ru.tinkoff.edu.java.scrapper.dto.AddLinkRequest;
-import ru.tinkoff.edu.java.scrapper.dto.ListLinksResponse;
-import ru.tinkoff.edu.java.scrapper.dto.RemoveLinkRequest;
+import reactor.core.publisher.Mono;
+import ru.tinkoff.edu.java.scrapper.dto.request.AddLinkRequest;
+import ru.tinkoff.edu.java.scrapper.dto.response.LinkResponse;
+import ru.tinkoff.edu.java.scrapper.dto.request.RemoveLinkRequest;
 
-import java.util.Objects;
+import java.util.List;
 
 @Component
+@Log4j2
 public class ScrapperSender {
     private final WebClient webClient;
 
@@ -20,21 +24,24 @@ public class ScrapperSender {
         this.webClient = WebClient.builder().baseUrl(baseUrl).build();
     }
 
-    public ListLinksResponse getLinksByChatId(long chatId) {
+    public List<LinkResponse> getLinksByChatId(long chatId) {
         return webClient.get()
                 .uri("/links")
                 .header("Tg-Chat-Id", String.valueOf(chatId))
                 .retrieve()
-                .bodyToMono(ListLinksResponse.class)
+                .bodyToMono(new ParameterizedTypeReference<List<LinkResponse>>() {})
                 .block();
     }
 
-    public boolean registerNewUser(long chatId) {
-        return Objects.equals(webClient.post()
+    public String registerNewUser(long chatId) {
+        String response = webClient.post()
                 .uri("/tg-chat/" + chatId)
                 .retrieve()
                 .bodyToMono(String.class)
-                .block(), "User with id=" + chatId + " was registered before.");
+                .onErrorResume(e -> Mono.just("<Error while registering new user>"))
+                .block();
+        log.info("RESPONSE:" + response);
+        return response;
     }
 
     public String addNewTrackedLink(long chatId, AddLinkRequest addLinkRequest) {

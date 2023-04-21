@@ -1,7 +1,8 @@
 package ru.tinkoff.edu.java.scrapper.controllers;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,9 +14,13 @@ import ru.tinkoff.edu.java.scrapper.service.TgChatService;
 @Log4j2
 @RestController
 @RequestMapping("/")
-@RequiredArgsConstructor
 public class ChatController {
     private final TgChatService tgChatService;
+
+    @Autowired
+    public ChatController(@Qualifier(value = "jdbcChatService") TgChatService tgChatService) {
+        this.tgChatService = tgChatService;
+    }
 
     @PostMapping("/tg-chat/{id}")
     public ResponseEntity<?> registerChat(@PathVariable Long id) {
@@ -23,7 +28,7 @@ public class ChatController {
             return ResponseEntity.badRequest().body("Chat with id " + id + "already have been registered.");
         }
         tgChatService.register(id);
-        return ResponseEntity.ok("Chat with id " + id + " was successfully registered.");
+        return ResponseEntity.ok("was successfully registered.");
     }
 
     @DeleteMapping("/tg-chat/{id}")

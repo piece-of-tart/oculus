@@ -15,7 +15,7 @@
         </addColumn>
 
         <addColumn tableName="link">
-            <column name="last_checked" type="timestamp" defaultValue="current_timestamp"/>
+            <column name="last_checked" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
         </addColumn>
     </changeSet>
 
