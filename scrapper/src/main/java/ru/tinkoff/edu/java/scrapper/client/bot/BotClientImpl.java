@@ -4,7 +4,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.reactive.function.client.WebClient;
-import ru.tinkoff.edu.java.scrapper.dto.LinkUpdate;
+import ru.tinkoff.edu.java.scrapper.dto.jdbc.LinkUpdate;
 import reactor.core.publisher.Mono;
 import org.springframework.http.HttpStatusCode;
 

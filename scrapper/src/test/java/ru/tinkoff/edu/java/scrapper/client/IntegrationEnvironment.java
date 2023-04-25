@@ -8,8 +8,13 @@ import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.exception.LiquibaseException;
 import liquibase.resource.DirectoryResourceAccessor;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.testcontainers.containers.PostgreSQLContainer;
 
+import javax.sql.DataSource;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.sql.Connection;
@@ -40,6 +45,19 @@ public class IntegrationEnvironment {
             liquibase.update(new Contexts(), new LabelExpression());
         } catch (SQLException | FileNotFoundException | LiquibaseException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @TestConfiguration
+    public static class IntegrationEnvironmentConfiguration {
+        @Bean
+        public DataSource dataSource() {
+            DriverManagerDataSource dataSource = new DriverManagerDataSource();
+            dataSource.setDriverClassName(POSTGRES_SQL_CONTAINER.getDriverClassName());
+            dataSource.setUrl(POSTGRES_SQL_CONTAINER.getJdbcUrl());
+            dataSource.setUsername(POSTGRES_SQL_CONTAINER.getUsername());
+            dataSource.setPassword(POSTGRES_SQL_CONTAINER.getPassword());
+            return dataSource;
         }
     }
 }

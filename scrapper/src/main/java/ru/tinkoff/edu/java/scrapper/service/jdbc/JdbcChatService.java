@@ -2,12 +2,10 @@ package ru.tinkoff.edu.java.scrapper.service.jdbc;
 
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import ru.tinkoff.edu.java.scrapper.dao.JdbcChatDao;
-import ru.tinkoff.edu.java.scrapper.dto.ChatEntity;
+import ru.tinkoff.edu.java.scrapper.dao.jdbc.JdbcChatDao;
+import ru.tinkoff.edu.java.scrapper.dto.jdbc.ChatEntity;
 import ru.tinkoff.edu.java.scrapper.service.TgChatService;
 
-@Service
-@Component
 public class JdbcChatService implements TgChatService {
     private final JdbcChatDao jdbcChatDao;
 
