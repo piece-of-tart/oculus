@@ -22,9 +22,9 @@ class GithubParserTest {
     public void testIncorrectURL() {
         final var parser = new ParserLinker();
 
-        assertNull(parser.parse(""));
-        assertNull(parser.parse("gskagj34jg349ss9@@#r"));
-        assertNull(parser.parse("some_freak_http"));
-        assertNull(parser.parse("http/http"));
+        assertThrows(Exception.class , () -> parser.parse(""));
+        assertThrows(Exception.class , () -> parser.parse("gskagj34jg349ss9@@#r"));
+        assertThrows(Exception.class , () -> parser.parse("some_freak_http"));
+        assertThrows(Exception.class , () -> parser.parse("http/http"));
     }
 }

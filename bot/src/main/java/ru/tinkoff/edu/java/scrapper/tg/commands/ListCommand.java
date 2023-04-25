@@ -17,7 +17,6 @@ public class ListCommand extends AbstractCommand {
 
         List<String> links = scrapperSender
                 .getLinksByChatId(message.getChatId())
-                .links()
                 .stream()
                 .map(linkResponse -> linkResponse.uri().toString())
                 .toList();
@@ -27,6 +26,7 @@ public class ListCommand extends AbstractCommand {
         } else {
             sendMessage.setText(String.join("\n", links));
         }
+        isDone = true;
         return sendMessage;
     }
 }

@@ -3,7 +3,7 @@ package ru.tinkoff.edu.java.scrapper.client;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import ru.tinkoff.edu.java.scrapper.dto.StackOverflowResponse;
+import ru.tinkoff.edu.java.scrapper.dto.response.StackOverflowResponse;
 
 
 @Component

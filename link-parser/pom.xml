@@ -10,6 +10,10 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+
     <artifactId>link-parser</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <dependencies>
@@ -17,6 +21,11 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>au.com.dius</groupId>
+            <artifactId>pact-jvm-provider-junit5-spring</artifactId>
+            <version>4.0.10</version>
         </dependency>
     </dependencies>
 

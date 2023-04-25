@@ -7,7 +7,7 @@ services:
     environment:
       - POSTGRES_USER=michaelbbb
       - POSTGRES_PASSWORD=test_root_password
-      - POSTGRES_DB=oculus-scrapper
+      - POSTGRES_DB=scrapper
     volumes:
       - ./migrations/pg-scrapper-data:/var/lib/postgresql/data/
     ports:
@@ -18,16 +18,18 @@ services:
   liquibase-migrations:
     container_name: liquibase
     image: liquibase/liquibase:4.18
+    depends_on:
+      - postgresql
     deploy:
       restart_policy:
         condition: on-failure
         delay: 15s
-        max_attempts: 15
+        max_attempts: 5
     command:
       - --hub-mode=off
       - --changelog-file=master.xml
       - --driver=org.postgresql.Driver
-      - --url=jdbc:postgresql://postgres:5432/scrapper
+      - --url=jdbc:postgresql://postgresql:5432/scrapper
       - --username=michaelbbb
       - --password=test_root_password
       - update

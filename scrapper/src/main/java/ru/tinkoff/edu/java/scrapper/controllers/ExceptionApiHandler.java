@@ -6,10 +6,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import ru.tinkoff.edu.java.scrapper.dto.ApiErrorResponse;
+import ru.tinkoff.edu.java.scrapper.dto.response.ApiErrorResponse;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 @RestControllerAdvice
 public class ExceptionApiHandler {
