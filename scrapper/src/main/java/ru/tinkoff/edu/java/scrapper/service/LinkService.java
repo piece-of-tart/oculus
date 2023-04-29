@@ -1,7 +1,7 @@
 package ru.tinkoff.edu.java.scrapper.service;
 
-import ru.tinkoff.edu.java.scrapper.dto.LinkEntity;
-import ru.tinkoff.edu.java.scrapper.dto.LinkUpdateData;
+import ru.tinkoff.edu.java.scrapper.dto.jdbc.LinkEntity;
+import ru.tinkoff.edu.java.scrapper.dto.jdbc.LinkUpdateData;
 
 import java.net.URI;
 import java.util.Collection;
@@ -11,9 +11,9 @@ public interface LinkService {
     LinkEntity add(LinkEntity linkEntity);
     LinkEntity remove(long tgChatId, URI uri);
     Collection<LinkEntity> listAll(long tgChatId);
-    LinkEntity get(long chatId, URI uri);
-    List<LinkEntity> get(URI uri);
-    List<LinkUpdateData> getListByType(String typeName);
+    LinkEntity getLink(long chatId, URI uri);
+    List<LinkEntity> getLinksByUri(URI uri);
+    List<LinkUpdateData> getLinksByType(String typeName);
     void update(LinkUpdateData linkUpdateData);
 }
 

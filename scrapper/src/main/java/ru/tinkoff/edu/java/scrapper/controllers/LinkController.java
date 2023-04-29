@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.tinkoff.edu.java.scrapper.dto.LinkEntity;
+import ru.tinkoff.edu.java.scrapper.dto.jdbc.LinkEntity;
 import ru.tinkoff.edu.java.scrapper.dto.request.AddLinkRequest;
 import ru.tinkoff.edu.java.scrapper.dto.request.RemoveLinkRequest;
 import ru.tinkoff.edu.java.scrapper.dto.response.LinkResponse;
@@ -28,7 +28,7 @@ public class LinkController {
     private final LinkService linkService;
 
     @Autowired
-    public LinkController(@Qualifier(value = "jdbcLinkService") LinkService linkService) {
+    public LinkController(LinkService linkService) {
         this.linkService = linkService;
     }
 
@@ -41,7 +41,7 @@ public class LinkController {
     @PostMapping
     public ResponseEntity<? super LinkResponse> addTrackedLink(@RequestHeader("Tg-Chat-Id") Long tgChatId, @RequestBody AddLinkRequest addLinkRequest) {
         final LinkEntity linkEntity = new LinkEntity(addLinkRequest.uri(), tgChatId, addLinkRequest.description(), 0L, null);
-        if (linkService.get(tgChatId, linkEntity.uri()) != null) {
+        if (linkService.getLink(tgChatId, linkEntity.uri()) != null) {
             return ResponseEntity.badRequest().body("This link is tracked by chat with id " + tgChatId + " yet.");
         }
         final LinkEntity retLinkEntity = linkService.add(linkEntity);

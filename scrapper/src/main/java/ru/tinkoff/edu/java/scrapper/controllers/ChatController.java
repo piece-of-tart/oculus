@@ -18,7 +18,7 @@ public class ChatController {
     private final TgChatService tgChatService;
 
     @Autowired
-    public ChatController(@Qualifier(value = "jdbcChatService") TgChatService tgChatService) {
+    public ChatController(TgChatService tgChatService) {
         this.tgChatService = tgChatService;
     }
 

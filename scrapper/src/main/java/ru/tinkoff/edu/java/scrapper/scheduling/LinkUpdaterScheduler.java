@@ -3,6 +3,7 @@ package ru.tinkoff.edu.java.scrapper.scheduling;
 import lombok.extern.log4j.Log4j2;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ru.tinkoff.edu.java.parser.ParserLinker;
@@ -12,14 +13,13 @@ import ru.tinkoff.edu.java.parser.values.Value;
 import ru.tinkoff.edu.java.scrapper.client.GitHubClient;
 import ru.tinkoff.edu.java.scrapper.client.StackOverflowClient;
 import ru.tinkoff.edu.java.scrapper.client.bot.BotClient;
-import ru.tinkoff.edu.java.scrapper.dto.LinkEntity;
-import ru.tinkoff.edu.java.scrapper.dto.LinkUpdate;
-import ru.tinkoff.edu.java.scrapper.dto.LinkUpdateData;
+import ru.tinkoff.edu.java.scrapper.dto.jdbc.LinkEntity;
+import ru.tinkoff.edu.java.scrapper.dto.jdbc.LinkUpdate;
+import ru.tinkoff.edu.java.scrapper.dto.jdbc.LinkUpdateData;
 import ru.tinkoff.edu.java.scrapper.dto.response.StackOverflowResponse;
 import ru.tinkoff.edu.java.scrapper.service.LinkService;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -39,7 +39,7 @@ public class LinkUpdaterScheduler {
     private final LinkService linkService;
 
     @Autowired
-    public LinkUpdaterScheduler(GitHubClient gitHubClient, StackOverflowClient stackOverflowClient, BotClient botClient, LinkService linkService) {
+    public LinkUpdaterScheduler(GitHubClient gitHubClient, StackOverflowClient stackOverflowClient, BotClient botClient, @Qualifier("jpaLinkService") LinkService linkService) {
         this.gitHubClient = gitHubClient;
         this.stackOverflowClient = stackOverflowClient;
         this.botClient = botClient;
@@ -55,7 +55,7 @@ public class LinkUpdaterScheduler {
     }
 
     private void checkStackOverflowLinks() {
-        List<LinkUpdateData> linkList = linkService.getListByType("stackoverflow.com");
+        List<LinkUpdateData> linkList = linkService.getLinksByType("stackoverflow.com");
         for (LinkUpdateData link : linkList) {
             Value questionId = new ParserLinker().parse(link.uri().toString());
             if (questionId instanceof StackOverflowValue stackOverflowValue) {
@@ -72,7 +72,7 @@ public class LinkUpdaterScheduler {
     }
 
     private void checkGitHubLinks() {
-        List<LinkUpdateData> linkList = linkService.getListByType("github.com");
+        List<LinkUpdateData> linkList = linkService.getLinksByType("github.com");
         for (LinkUpdateData link : linkList) {
             Value questionId = new ParserLinker().parse(link.uri().toString());
             if (questionId instanceof GithubValue githubValue) {
@@ -93,7 +93,7 @@ public class LinkUpdaterScheduler {
     }
 
     private void sendNotifications(LinkUpdateData link) {
-        List<Long> chatIds = linkService.get(link.uri()).stream().map(LinkEntity::chatId).toList();
+        List<Long> chatIds = linkService.getLinksByUri(link.uri()).stream().map(LinkEntity::chatId).toList();
         botClient.sendNotification(new LinkUpdate(0L, link.uri(), "notification about update", chatIds));
     }
 
