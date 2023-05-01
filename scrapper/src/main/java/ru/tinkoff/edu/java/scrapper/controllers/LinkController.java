@@ -22,7 +22,6 @@ import java.util.Collections;
 import java.util.Objects;
 
 @RestController
-@Log4j2
 @RequestMapping("/links")
 public class LinkController {
     private final LinkService linkService;
@@ -42,7 +41,7 @@ public class LinkController {
     public ResponseEntity<? super LinkResponse> addTrackedLink(@RequestHeader("Tg-Chat-Id") Long tgChatId, @RequestBody AddLinkRequest addLinkRequest) {
         final LinkEntity linkEntity = new LinkEntity(addLinkRequest.uri(), tgChatId, addLinkRequest.description(), 0L, null);
         if (linkService.getLink(tgChatId, linkEntity.uri()) != null) {
-            return ResponseEntity.badRequest().body("This link is tracked by chat with id " + tgChatId + " yet.");
+            return ResponseEntity.ok("This link is tracked by chat with id " + tgChatId + " yet.");
         }
         final LinkEntity retLinkEntity = linkService.add(linkEntity);
         return ResponseEntity.ok(new LinkResponse(retLinkEntity.chatId(), retLinkEntity.uri()));

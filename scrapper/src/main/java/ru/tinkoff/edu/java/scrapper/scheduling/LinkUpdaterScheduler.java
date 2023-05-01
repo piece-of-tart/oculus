@@ -48,7 +48,7 @@ public class LinkUpdaterScheduler {
 
     @Scheduled(fixedDelayString = "#{@getScheduler.interval.toMillis()}")
     public void update() {
-        log.info("Update " + DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)
+        log.debug("Update " + DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)
                 .format(ZonedDateTime.now(ZoneId.of("Europe/Moscow"))));
         checkGitHubLinks();
         checkStackOverflowLinks();

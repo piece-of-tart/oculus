@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.tinkoff.edu.java.scrapper.service.TgChatService;
 
-@Log4j2
 @RestController
 @RequestMapping("/")
 public class ChatController {

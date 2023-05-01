@@ -33,10 +33,10 @@ public class TrackCommand extends AbstractCommand {
             textResponse = "Enter link, please.";
         } else if (uri == null) {
             try {
-                uri = new URI(messageText);
+                uri = URI.create(messageText);
                 textResponse = "Enter description, please.";
-            } catch (URISyntaxException e) {
-                textResponse = "This is not a correct link.";
+            } catch (RuntimeException e) {
+                textResponse = "This is not a correct/supported link. Enter another one.";
             }
         } else if (description == null) {
             description = messageText;
@@ -44,7 +44,7 @@ public class TrackCommand extends AbstractCommand {
             textResponse = "Now, link " + uri.toString() + " is tracked.";
             isDone = true;
         } else {
-            log.error("Illegal state: we execute method when link has had tracked yet.");
+            log.warn("Illegal state: we execute method when link has had tracked yet.");
             textResponse = "Server couldn't handle with this message, try again, please.";
         }
         return new SendMessage(stringChatId, textResponse);

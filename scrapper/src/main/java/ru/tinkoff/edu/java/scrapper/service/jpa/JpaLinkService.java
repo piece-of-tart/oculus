@@ -48,7 +48,7 @@ public class JpaLinkService implements LinkService {
             if (linkEntity.lastChecked() != null) {
                 link.setLastChecked(Timestamp.valueOf(linkEntity.lastChecked().toLocalDate().atStartOfDay()));
             }
-            log.warn("save:" + link);
+            log.debug("save:" + link);
             jpaLinkDao.save(link);
         }
         final Long linkId = jpaLinkDao.findByUri(linkEntity.uri().toString()).getId();
@@ -74,7 +74,7 @@ public class JpaLinkService implements LinkService {
     @Transactional
     public Collection<LinkEntity> listAll(long tgChatId) {
         final Map<Long, List<ChatLink>> chatLinkMap = getMapFromLinkIdToChatLinksByChatId(tgChatId);
-        log.warn("getMapFromLinkIdToChatLinksByChatId: " + chatLinkMap);
+        log.debug("getMapFromLinkIdToChatLinksByChatId: " + chatLinkMap);
         final List<LinkEntity> linkEntities = new ArrayList<>();
         for (var mapEntity : chatLinkMap.entrySet()) {
             Link link = jpaLinkDao.findById(mapEntity.getKey()).orElseThrow(() ->
@@ -93,7 +93,7 @@ public class JpaLinkService implements LinkService {
 
     private Map<Long, List<ChatLink>> getMapFromLinkIdToChatLinksByChatId(long tgChatId) {
         final List<ChatLink> chatLinks = jpaChatLinkDao.findAllByChatId(tgChatId);
-        log.warn("findAllByChatId:" + chatLinks);
+        log.debug("findAllByChatId:" + chatLinks);
         final Map<Long, List<ChatLink>> chatLinkMap = new HashMap<>();
         for (var chatLink : chatLinks) {
             chatLinkMap.compute(chatLink.getLinkId(), (k, v) -> {

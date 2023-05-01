@@ -23,7 +23,7 @@ public class JdbcLinkDao {
     public void add(LinkEntity linkEntity) {
         Optional<Long> linkTypeId = getTypeIdByUri(linkEntity.uri());
         if (linkTypeId.isEmpty()) {
-            log.error("Unsupported link " + linkEntity.uri());
+            log.warn("Link with linkTypeId = null occurred in add to database stage. linkEntity.uri():" + linkEntity.uri());
             throw new RuntimeException("(My exception): Unsupported link " + linkEntity.uri());
         }
         jdbcTemplate.update("INSERT INTO link (uri, last_updated_id, last_checked, type_id)" +
@@ -104,7 +104,7 @@ public class JdbcLinkDao {
                 ps -> { ps.setString(1, typeName); },
                 rse -> {
                     if (!rse.next()) {
-                        log.error("Couldn't find type '" + typeName + "' which method " + getClass().toString() +
+                        log.warn("Couldn't find type of link '" + typeName + "' which method " + getClass().toString() +
                                 ".findAllByType" + " received");
                         return -1L;
                     }

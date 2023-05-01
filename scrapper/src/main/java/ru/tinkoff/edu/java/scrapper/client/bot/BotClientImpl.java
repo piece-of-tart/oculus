@@ -30,7 +30,7 @@ public class BotClientImpl implements BotClient {
                         HttpStatusCode::isError,
                         res -> {
                             res.toEntity(String.class).subscribe(
-                                    entity -> log.error("Error occurred while sending notification", entity));
+                                    entity -> log.warn("Error occurred while sending notification", entity));
                             return Mono.error(new HttpClientErrorException(res.statusCode()));
                         }
                 );
