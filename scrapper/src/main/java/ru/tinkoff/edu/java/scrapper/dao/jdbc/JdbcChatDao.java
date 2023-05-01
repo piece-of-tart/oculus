@@ -9,12 +9,10 @@ import ru.tinkoff.edu.java.scrapper.dto.jdbc.ChatEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository
 @Log4j2
 public class JdbcChatDao {
     private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
     public JdbcChatDao(JdbcTemplate jdbcTemplate) {
         log.info("JDBCTEMPLATE: " + jdbcTemplate.toString());
         this.jdbcTemplate = jdbcTemplate;

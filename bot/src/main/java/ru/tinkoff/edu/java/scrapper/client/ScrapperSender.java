@@ -40,7 +40,7 @@ public class ScrapperSender {
                 .bodyToMono(String.class)
                 .onErrorResume(e -> Mono.just("<Error while registering new user>"))
                 .block();
-        log.info("RESPONSE:" + response);
+        log.info("RESPONSE from Scrapper (registerNewUser query): " + response);
         return response;
     }
 

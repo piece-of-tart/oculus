@@ -1,4 +1,4 @@
-package ru.tinkoff.edu.java.scrapper.tg;
+package ru.tinkoff.edu.java.scrapper.controllers.tg;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,13 +6,13 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import ru.tinkoff.edu.java.scrapper.client.ScrapperSender;
-import ru.tinkoff.edu.java.scrapper.tg.commands.AbstractCommand;
-import ru.tinkoff.edu.java.scrapper.tg.commands.HelpCommand;
-import ru.tinkoff.edu.java.scrapper.tg.commands.ListCommand;
-import ru.tinkoff.edu.java.scrapper.tg.commands.StartCommand;
-import ru.tinkoff.edu.java.scrapper.tg.commands.TrackCommand;
-import ru.tinkoff.edu.java.scrapper.tg.commands.UnknownCommand;
-import ru.tinkoff.edu.java.scrapper.tg.commands.UntrackCommand;
+import ru.tinkoff.edu.java.scrapper.controllers.tg.commands.AbstractCommand;
+import ru.tinkoff.edu.java.scrapper.controllers.tg.commands.HelpCommand;
+import ru.tinkoff.edu.java.scrapper.controllers.tg.commands.ListCommand;
+import ru.tinkoff.edu.java.scrapper.controllers.tg.commands.StartCommand;
+import ru.tinkoff.edu.java.scrapper.controllers.tg.commands.TrackCommand;
+import ru.tinkoff.edu.java.scrapper.controllers.tg.commands.UnknownCommand;
+import ru.tinkoff.edu.java.scrapper.controllers.tg.commands.UntrackCommand;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +36,8 @@ public class CommandHandler {
         List<SendMessage> sendMessageList = new ArrayList<>();
         final String messageText = message.getText();
         final AbstractCommand lastCommand = lastCommandByChatId.get(message.getChatId());
+
+        log.warn("CHAT_ID:" + message.getChatId());
 
         if (!registeredChatIds.contains(message.getChatId())) {
             if (!"/start".equals(messageText)) {
