@@ -13,7 +13,7 @@ public class UpdateListener {
     private TelegramMessageSender telegramMessageSender;
 
     public void sendUpdatesToUser(LinkUpdate linkUpdate) {
-        for (long tgChatId : linkUpdate.tgChatIds()){
+        for (long tgChatId : linkUpdate.tgChatIds()) {
             telegramMessageSender.sendMessage(
                     new SendMessage(String.valueOf(tgChatId),
                             "Updates in this source: " + linkUpdate.uri().toString())

@@ -18,6 +18,7 @@ import ru.tinkoff.edu.java.scrapper.dto.LinkUpdate;
 public class HttpControllerUpdateListener {
     @Autowired
     private UpdateListener updateListener;
+
     @PostMapping("/update")
     public ResponseEntity<?> updateLink(@Validated @RequestBody LinkUpdate linkUpdate) {
         log.info(getClass().toString() + " - got link with updates: " + linkUpdate);

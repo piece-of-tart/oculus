@@ -27,6 +27,7 @@ public class CommandHandler {
     private final Map<Long, AbstractCommand> lastCommandByChatId = new HashMap<>();
     private final Set<Long> registeredChatIds = new HashSet<>();
     private final ScrapperSender scrapperSender;
+
     @Autowired
     public CommandHandler(ScrapperSender scrapperSender) {
         this.scrapperSender = scrapperSender;
