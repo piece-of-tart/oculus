@@ -3,7 +3,6 @@ package ru.tinkoff.edu.java.parser.parsers;
 import ru.tinkoff.edu.java.parser.values.Value;
 
 import java.net.URI;
-import java.net.URL;
 
 public abstract class AbstractParser implements Parser {
     private final Parser next;

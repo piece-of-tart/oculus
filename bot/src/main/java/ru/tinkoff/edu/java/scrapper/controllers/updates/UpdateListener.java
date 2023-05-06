@@ -3,7 +3,6 @@ package ru.tinkoff.edu.java.scrapper.controllers.updates;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import ru.tinkoff.edu.java.scrapper.controllers.tg.TelegramController;
 import ru.tinkoff.edu.java.scrapper.controllers.tg.TelegramMessageSender;
 import ru.tinkoff.edu.java.scrapper.dto.LinkUpdate;
 

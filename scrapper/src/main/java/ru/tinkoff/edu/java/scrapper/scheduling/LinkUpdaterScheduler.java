@@ -28,7 +28,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 @Component
 @Log4j2
@@ -39,7 +38,8 @@ public class LinkUpdaterScheduler {
     private final LinkService linkService;
 
     @Autowired
-    public LinkUpdaterScheduler(GitHubClient gitHubClient, StackOverflowClient stackOverflowClient, BotClient botClient, @Qualifier("jpaLinkService") LinkService linkService) {
+    public LinkUpdaterScheduler(GitHubClient gitHubClient, StackOverflowClient stackOverflowClient,
+                                BotClient botClient, @Qualifier("jpaLinkService") LinkService linkService) {
         this.gitHubClient = gitHubClient;
         this.stackOverflowClient = stackOverflowClient;
         this.botClient = botClient;
@@ -59,10 +59,12 @@ public class LinkUpdaterScheduler {
         for (LinkUpdateData link : linkList) {
             Value questionId = new ParserLinker().parse(link.uri().toString());
             if (questionId instanceof StackOverflowValue stackOverflowValue) {
-                StackOverflowResponse stackOverflowResponse = stackOverflowClient.getQuestion(stackOverflowValue.id()).block();
+                StackOverflowResponse stackOverflowResponse =
+                        stackOverflowClient.getQuestion(stackOverflowValue.id()).block();
                 assert stackOverflowResponse != null;
                 OffsetDateTime lastActivityDate = stackOverflowResponse.getItems().get(0).getLastActivityDate();
-                OffsetDateTime lastActivityInDatabase = OffsetDateTime.ofInstant(link.lastChecked().toInstant(), ZoneOffset.UTC);
+                OffsetDateTime lastActivityInDatabase =
+                        OffsetDateTime.ofInstant(link.lastChecked().toInstant(), ZoneOffset.UTC);
                 if (lastActivityInDatabase.isBefore(lastActivityDate)) {
                     sendNotifications(link);
                 }
@@ -101,9 +103,7 @@ public class LinkUpdaterScheduler {
         linkService.update(new LinkUpdateData(
                 link.uri(),
                 lastUpdatedId,
-                new Date(new java.util.Date(
-                        System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(5)
-                ).getTime()))
+                new Date(new java.util.Date(System.currentTimeMillis()).getTime()))
         );
     }
 }

@@ -1,9 +1,6 @@
 package ru.tinkoff.edu.java.scrapper.dao.jdbc;
 
-import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 import ru.tinkoff.edu.java.scrapper.dto.jdbc.ChatEntity;
 
 import java.util.ArrayList;
@@ -41,12 +38,14 @@ public class JdbcChatDao {
 
     public ChatEntity findById(long chatId) {
         return jdbcTemplate.query("SELECT id FROM chat WHERE id = ?",
-                ps -> { ps.setLong(1, chatId); }, rse -> {
-            ChatEntity chatEntity = null;
-            while (rse.next()) {
-                chatEntity = new ChatEntity(rse.getLong("id"));
-            }
-            return chatEntity;
-        });
+                ps -> {
+                    ps.setLong(1, chatId);
+                }, rse -> {
+                    ChatEntity chatEntity = null;
+                    while (rse.next()) {
+                        chatEntity = new ChatEntity(rse.getLong("id"));
+                    }
+                    return chatEntity;
+                });
     }
 }

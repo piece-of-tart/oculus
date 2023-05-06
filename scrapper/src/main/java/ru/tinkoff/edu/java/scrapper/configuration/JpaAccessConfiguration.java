@@ -30,7 +30,7 @@ public class JpaAccessConfiguration {
     }
 
     @Bean
-    public LinkService linkService(){
+    public LinkService linkService() {
         return new JpaLinkService(jpaLinkDao, jpaChatLinkDao, jpaLinkTypeDao);
     }
 }

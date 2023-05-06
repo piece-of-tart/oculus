@@ -1,8 +1,6 @@
 package ru.tinkoff.edu.java.scrapper.controllers;
 
-import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,8 +36,10 @@ public class LinkController {
     }
 
     @PostMapping
-    public ResponseEntity<? super LinkResponse> addTrackedLink(@RequestHeader("Tg-Chat-Id") Long tgChatId, @RequestBody AddLinkRequest addLinkRequest) {
-        final LinkEntity linkEntity = new LinkEntity(addLinkRequest.uri(), tgChatId, addLinkRequest.description(), 0L, null);
+    public ResponseEntity<? super LinkResponse> addTrackedLink(@RequestHeader("Tg-Chat-Id") Long tgChatId,
+                                                               @RequestBody AddLinkRequest addLinkRequest) {
+        final LinkEntity linkEntity = new LinkEntity(addLinkRequest.uri(), tgChatId, addLinkRequest.description(),
+                0L, null);
         if (linkService.getLink(tgChatId, linkEntity.uri()) != null) {
             return ResponseEntity.ok("This link is tracked by chat with id " + tgChatId + " yet.");
         }
@@ -48,12 +48,13 @@ public class LinkController {
     }
 
     @DeleteMapping
-    public ResponseEntity<? super LinkResponse> deleteTrackedLink(@RequestHeader("Tg-Chat-Id") Long tgChatId, @RequestBody RemoveLinkRequest removeLinkRequest) {
+    public ResponseEntity<? super LinkResponse> deleteTrackedLink(@RequestHeader("Tg-Chat-Id") Long tgChatId,
+                                                                  @RequestBody RemoveLinkRequest removeLinkRequest) {
         final LinkEntity linkEntity = linkService.remove(tgChatId, removeLinkRequest.uri());
         if (linkEntity == null) {
+            final String message = "Link " + removeLinkRequest.uri() + " doesn't exist.";
             return ResponseEntity.badRequest().body(
-                    ExceptionApiHandler.getApiErrorResponse("Link " + removeLinkRequest.uri() + " doesn't exist.", "404",
-                            new RuntimeException("Link " + removeLinkRequest.uri() + " doesn't exist.")));
+                    ExceptionApiHandler.getApiErrorResponse(message, "404", new RuntimeException(message)));
         }
         return ResponseEntity.ok(new LinkResponse(linkEntity.chatId(), linkEntity.uri()));
     }

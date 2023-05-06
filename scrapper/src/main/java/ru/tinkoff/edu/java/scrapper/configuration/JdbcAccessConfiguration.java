@@ -42,7 +42,7 @@ public class JdbcAccessConfiguration {
     }
 
     @Bean
-    public LinkService linkService(JdbcLinkDao jdbcLinkDao){
+    public LinkService linkService(JdbcLinkDao jdbcLinkDao) {
         return new JdbcLinkService(jdbcLinkDao);
     }
 }

@@ -1,7 +1,5 @@
 package ru.tinkoff.edu.java.scrapper.service.jpa;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -64,7 +62,8 @@ public class JpaLinkService implements LinkService {
     public LinkEntity remove(long tgChatId, URI uri) {
         Link link = jpaLinkDao.findByUri(uri.toString());
         ChatLink chatLink = jpaChatLinkDao.findById(new ChatLinkId(tgChatId, link.getId())).orElseThrow(() ->
-                new RuntimeException("Cannot remove row " + new ChatLinkId(tgChatId, link.getId()) + " because it doesn't exist."));
+                new RuntimeException("Cannot remove row " + new ChatLinkId(tgChatId, link.getId())
+                        + " because it doesn't exist."));
         jpaChatLinkDao.delete(chatLink);
         return new LinkEntity(uri, tgChatId, chatLink.getDescription(), link.getLastUpdatedId(),
                 Date.valueOf(link.getLastChecked().toLocalDateTime().toLocalDate()));
@@ -110,47 +109,47 @@ public class JpaLinkService implements LinkService {
         return chatLinkMap;
     }
 
-        @Override
-        @Transactional
-        public LinkEntity getLink (long chatId, URI uri){
-            final Link link = jpaLinkDao.findByUri(uri.toString());
-            final ChatLink chatLink = jpaChatLinkDao.findById(
-                    new ChatLinkId().setChatId(chatId).setLinkId(link.getId())).orElseThrow();
-            log.warn("GET_LINK: " + link.getLastChecked().toLocalDateTime().toLocalDate());
-            return new LinkEntity(uri, chatId, chatLink.getDescription(), link.getLastUpdatedId(),
-                    Date.valueOf(link.getLastChecked().toLocalDateTime().toLocalDate()));
-        }
-
-        @Override
-        @Transactional
-        public List<LinkEntity> getLinksByUri (URI uri){
-            final Link link = jpaLinkDao.findByUri(uri.toString());
-            final List<ChatLink> chatLinks = jpaChatLinkDao.findAllByLinkId(link.getId());
-            return chatLinks.stream().map(chatLink -> new LinkEntity(uri, chatLink.getChatId(),
-                    chatLink.getDescription(), link.getLastUpdatedId(),
-                    Date.valueOf(link.getLastChecked() == null ? LocalDate.now() :
-                            link.getLastChecked().toLocalDateTime().toLocalDate()))
-            ).toList();
-        }
-
-        @Override
-        @Transactional
-        public List<LinkUpdateData> getLinksByType (String typeName) {
-            final LinkType linkType = jpaLinkTypeDao.findLinkTypeByType(typeName);
-            final List<Link> links = jpaLinkDao.findByType(linkType);
-            return links.stream().map(link ->
-                    new LinkUpdateData(URI.create(link.getUri()), link.getLastUpdatedId(),
-                            Date.valueOf(link.getLastChecked() == null ? LocalDate.now() :
-                                    link.getLastChecked().toLocalDateTime().toLocalDate()))
-            ).toList();
-        }
-
-        @Override
-        @Transactional
-        public void update (LinkUpdateData linkUpdateData) {
-            final Link link = jpaLinkDao.findByUri(linkUpdateData.uri().toString());
-            link.setLastUpdatedId(linkUpdateData.lastUpdatedId())
-                    .setLastChecked(Timestamp.valueOf(LocalDateTime.now(ZoneId.of("Europe/Moscow"))));
-            jpaLinkDao.save(link);
-        }
+    @Override
+    @Transactional
+    public LinkEntity getLink(long chatId, URI uri) {
+        final Link link = jpaLinkDao.findByUri(uri.toString());
+        final ChatLink chatLink = jpaChatLinkDao.findById(
+                new ChatLinkId().setChatId(chatId).setLinkId(link.getId())).orElseThrow();
+        log.warn("GET_LINK: " + link.getLastChecked().toLocalDateTime().toLocalDate());
+        return new LinkEntity(uri, chatId, chatLink.getDescription(), link.getLastUpdatedId(),
+                Date.valueOf(link.getLastChecked().toLocalDateTime().toLocalDate()));
     }
+
+    @Override
+    @Transactional
+    public List<LinkEntity> getLinksByUri(URI uri) {
+        final Link link = jpaLinkDao.findByUri(uri.toString());
+        final List<ChatLink> chatLinks = jpaChatLinkDao.findAllByLinkId(link.getId());
+        return chatLinks.stream().map(chatLink -> new LinkEntity(uri, chatLink.getChatId(),
+                chatLink.getDescription(), link.getLastUpdatedId(),
+                Date.valueOf(link.getLastChecked() == null ? LocalDate.now()
+                        : link.getLastChecked().toLocalDateTime().toLocalDate()))
+        ).toList();
+    }
+
+    @Override
+    @Transactional
+    public List<LinkUpdateData> getLinksByType(String typeName) {
+        final LinkType linkType = jpaLinkTypeDao.findLinkTypeByType(typeName);
+        final List<Link> links = jpaLinkDao.findByType(linkType);
+        return links.stream().map(link ->
+                new LinkUpdateData(URI.create(link.getUri()), link.getLastUpdatedId(),
+                        Date.valueOf(link.getLastChecked() == null ? LocalDate.now()
+                                : link.getLastChecked().toLocalDateTime().toLocalDate()))
+        ).toList();
+    }
+
+    @Override
+    @Transactional
+    public void update(LinkUpdateData linkUpdateData) {
+        final Link link = jpaLinkDao.findByUri(linkUpdateData.uri().toString());
+        link.setLastUpdatedId(linkUpdateData.lastUpdatedId())
+                .setLastChecked(Timestamp.valueOf(LocalDateTime.now(ZoneId.of("Europe/Moscow"))));
+        jpaLinkDao.save(link);
+    }
+}

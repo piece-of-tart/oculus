@@ -26,8 +26,8 @@ public class TelegramBotInitializer {
         try {
             telegramBotsApi.registerBot(telegramController);
         } catch (TelegramApiException e) {
-            log.error("Couldn't create connection with telegram. " +
-                    "Class: " + e.getClass() + ", message: " + e.getMessage());
+            log.error("Couldn't create connection with telegram. "
+                    + "Class: " + e.getClass() + ", message: " + e.getMessage());
         }
     }
 }

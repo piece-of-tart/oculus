@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Log4j2
 public class HelpCommand extends AbstractCommand {
 
-    private static final String response = Map.of(
+    private static final String RESPONSE = Map.of(
                     "/start", "Let you register new user. You can have several users in one tg account.",
                     "/help", "Show all commands that bot supporting and their descriptions.",
                     "/track", "Let you subscribe on link. It's  List of tracking links unique for every user.",
@@ -32,7 +32,7 @@ public class HelpCommand extends AbstractCommand {
     public SendMessage handle(Message message) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(message.getChatId());
-        sendMessage.setText(response);
+        sendMessage.setText(RESPONSE);
         isDone = true;
         log.info("Ready to send message in helpCommand");
         return sendMessage;

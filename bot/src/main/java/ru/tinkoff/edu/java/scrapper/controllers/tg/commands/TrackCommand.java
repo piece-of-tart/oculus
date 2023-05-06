@@ -7,7 +7,6 @@ import ru.tinkoff.edu.java.scrapper.client.ScrapperSender;
 import ru.tinkoff.edu.java.scrapper.dto.request.AddLinkRequest;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 @Log4j2
 public class TrackCommand extends AbstractCommand {
@@ -26,7 +25,8 @@ public class TrackCommand extends AbstractCommand {
         if (message.hasText()) {
             messageText = message.getText();
         } else {
-            log.info("We caught message without text. ChatId=" + message.getChatId() + "; userName=" + message.getFrom());
+            log.info("We caught message without text. ChatId=" + message.getChatId()
+                    + "; userName=" + message.getFrom());
             return new SendMessage(stringChatId, "Server got message without text.");
         }
         if ("/track".equals(messageText)) {

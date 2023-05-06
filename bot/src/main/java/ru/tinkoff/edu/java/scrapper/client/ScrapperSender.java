@@ -19,6 +19,8 @@ import java.util.List;
 @Log4j2
 public class ScrapperSender {
     private final WebClient webClient;
+    private static final String LINKS_MAPPING = "/links";
+    private static final String TG_CHAT_ID = "Tg-Chat-Id";
 
     public ScrapperSender(@Value("${scrapper.baseUrl}") String baseUrl) {
         this.webClient = WebClient.builder().baseUrl(baseUrl).build();
@@ -26,8 +28,8 @@ public class ScrapperSender {
 
     public List<LinkResponse> getLinksByChatId(long chatId) {
         return webClient.get()
-                .uri("/links")
-                .header("Tg-Chat-Id", String.valueOf(chatId))
+                .uri(LINKS_MAPPING)
+                .header(TG_CHAT_ID, String.valueOf(chatId))
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<LinkResponse>>() {})
                 .block();
@@ -47,8 +49,8 @@ public class ScrapperSender {
     public String addNewTrackedLink(long chatId, AddLinkRequest addLinkRequest) {
         try {
             return webClient.post()
-                    .uri("/links")
-                    .header("Tg-Chat-Id", String.valueOf(chatId))
+                    .uri(LINKS_MAPPING)
+                    .header(TG_CHAT_ID, String.valueOf(chatId))
                     .body(BodyInserters.fromValue(addLinkRequest))
                     .retrieve()
                     .bodyToMono(String.class)
@@ -61,8 +63,8 @@ public class ScrapperSender {
     public String deleteTrackedLink(long chatId, RemoveLinkRequest removeLinkRequest) {
         try {
             return webClient.method(HttpMethod.DELETE)
-                    .uri("/links")
-                    .header("Tg-Chat-Id", String.valueOf(chatId))
+                    .uri(LINKS_MAPPING)
+                    .header(TG_CHAT_ID, String.valueOf(chatId))
                     .body(BodyInserters.fromValue(removeLinkRequest))
                     .retrieve()
                     .bodyToMono(String.class)

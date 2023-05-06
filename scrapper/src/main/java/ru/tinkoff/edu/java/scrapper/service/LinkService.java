@@ -9,11 +9,17 @@ import java.util.List;
 
 public interface LinkService {
     LinkEntity add(LinkEntity linkEntity);
+
     LinkEntity remove(long tgChatId, URI uri);
+
     Collection<LinkEntity> listAll(long tgChatId);
+
     LinkEntity getLink(long chatId, URI uri);
+
     List<LinkEntity> getLinksByUri(URI uri);
+
     List<LinkUpdateData> getLinksByType(String typeName);
+
     void update(LinkUpdateData linkUpdateData);
 }
 

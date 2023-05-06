@@ -23,7 +23,8 @@ public class UntrackCommand extends AbstractCommand {
         if (message.hasText()) {
             messageText = message.getText();
         } else {
-            log.info("We caught message without text. ChatId=" + message.getChatId() + "; userName=" + message.getFrom());
+            log.info("We caught message without text. ChatId=" + message.getChatId()
+                    + "; userName=" + message.getFrom());
             return new SendMessage(stringChatId, "Server got message without text.");
         }
         if ("/untrack".equals(messageText)) {

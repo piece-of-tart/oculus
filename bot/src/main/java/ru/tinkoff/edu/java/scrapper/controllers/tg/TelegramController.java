@@ -43,7 +43,7 @@ public class TelegramController extends TelegramLongPollingBot implements Telegr
         try {
             execute(new SetMyCommands(commands, new BotCommandScopeDefault(), null));
         } catch (TelegramApiException e) {
-            log.error("Couldn't set command menu in telegram. Class: " + e.getClass() + ", message: " + e.getMessage());
+            logError("Couldn't set command menu in telegram.", e.getMessage());
         }
     }
 
@@ -61,9 +61,12 @@ public class TelegramController extends TelegramLongPollingBot implements Telegr
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
-            log.error("Error when trying to send a message. Class: " + e.getClass() +
-                    ", message: " + e.getMessage());
+            logError("Error when trying to send a message.", e.getMessage());
         }
+    }
+
+    private void logError(final String event, final String message) {
+        log.error("[Class]: " + getClass() + ", [event]: " + event + ", [message]: " + message);
     }
 
     @Override

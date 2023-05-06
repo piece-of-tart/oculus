@@ -15,8 +15,8 @@ public class StartCommand extends AbstractCommand {
         String wasRegisteredBefore = scrapperSender.registerNewUser(chatId);
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
-        sendMessage.setText("User with name " + message.getFrom().getUserName() + " " +
-                wasRegisteredBefore);
+        sendMessage.setText("User with name " + message.getFrom().getUserName()
+                + " " + wasRegisteredBefore);
         isDone = true;
         return sendMessage;
     }
