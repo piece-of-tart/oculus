@@ -1,0 +1,82 @@
+name: scrapper
+on:
+  push:
+    paths:
+    - 'scrapper/**'
+    - 'link-parser/**'
+  pull_request:
+    paths:
+    - 'scrapper/**'
+    - 'link-parser/**'
+    
+env:
+  REGISTRY: ghcr.io
+  USERNAME: piece-of-tart
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  check-style:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      
+    - name: Set up JDK 19
+      uses: actions/setup-java@v3
+      with:
+        java-version: '19'
+        distribution: 'temurin'
+        cache: maven
+  
+    - name: Check code style (scrapper)
+      run: mvn -pl ./scrapper -am checkstyle:check
+      
+    - name: Check code style (link-parser)
+      run: mvn -pl ./link-parser -am checkstyle:check
+      
+      
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Set up JDK 19
+      uses: actions/setup-java@v3
+      with:
+        java-version: '19'
+        distribution: 'temurin'
+        cache: maven
+        
+    - name: Run tests (Link-parser)
+      run: mvn test -pl link-parser -am
+        
+    - name: Run tests (Scrapper)
+      run: mvn test -pl scrapper -am
+      
+    - name: Build Scrapper application
+      run: mvn package -pl scrapper -am
+      
+    - uses: actions/upload-artifact@v2
+      with:
+        name: scrapper.jar
+        path: scrapper/target/scrapper-0.0.1-SNAPSHOT.jar
+    
+    - name: Log in to the Container registry
+      uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build image
+      run: docker build scrapper/ -t $REGISTRY/$USERNAME/scrapper:latest
+        
+    - name: Push image
+      run: docker push $REGISTRY/$USERNAME/scrapper:latest
+    
+    needs: [check-style]
