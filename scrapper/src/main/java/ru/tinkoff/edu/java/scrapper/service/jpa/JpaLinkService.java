@@ -128,7 +128,8 @@ public class JpaLinkService implements LinkService {
             final List<ChatLink> chatLinks = jpaChatLinkDao.findAllByLinkId(link.getId());
             return chatLinks.stream().map(chatLink -> new LinkEntity(uri, chatLink.getChatId(),
                     chatLink.getDescription(), link.getLastUpdatedId(),
-                    Date.valueOf(link.getLastChecked().toLocalDateTime().toLocalDate()))
+                    Date.valueOf(link.getLastChecked() == null ? LocalDate.now() :
+                            link.getLastChecked().toLocalDateTime().toLocalDate()))
             ).toList();
         }
 
@@ -139,7 +140,8 @@ public class JpaLinkService implements LinkService {
             final List<Link> links = jpaLinkDao.findByType(linkType);
             return links.stream().map(link ->
                     new LinkUpdateData(URI.create(link.getUri()), link.getLastUpdatedId(),
-                            Date.valueOf(link.getLastChecked().toLocalDateTime().toLocalDate()))
+                            Date.valueOf(link.getLastChecked() == null ? LocalDate.now() :
+                                    link.getLastChecked().toLocalDateTime().toLocalDate()))
             ).toList();
         }
 

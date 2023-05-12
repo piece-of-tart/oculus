@@ -12,12 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 @Log4j2
 public class JdbcLinkDao {
     private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
     public JdbcLinkDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }

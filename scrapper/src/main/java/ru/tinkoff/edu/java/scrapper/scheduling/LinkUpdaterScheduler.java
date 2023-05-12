@@ -14,7 +14,7 @@ import ru.tinkoff.edu.java.scrapper.client.GitHubClient;
 import ru.tinkoff.edu.java.scrapper.client.StackOverflowClient;
 import ru.tinkoff.edu.java.scrapper.client.bot.BotClient;
 import ru.tinkoff.edu.java.scrapper.dto.jdbc.LinkEntity;
-import ru.tinkoff.edu.java.scrapper.dto.jdbc.LinkUpdate;
+import ru.tinkoff.edu.java.scrapper.dto.response.LinkUpdate;
 import ru.tinkoff.edu.java.scrapper.dto.jdbc.LinkUpdateData;
 import ru.tinkoff.edu.java.scrapper.dto.response.StackOverflowResponse;
 import ru.tinkoff.edu.java.scrapper.service.LinkService;

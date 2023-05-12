@@ -1,4 +1,4 @@
-package ru.tinkoff.edu.java.scrapper.controllers;
+package ru.tinkoff.edu.java.scrapper.controllers.tg;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.tinkoff.edu.java.scrapper.configuration.TelegramConfiguration;
-import ru.tinkoff.edu.java.scrapper.tg.CommandHandler;
 
 import java.util.List;
 

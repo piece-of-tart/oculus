@@ -19,7 +19,6 @@ import ru.tinkoff.edu.java.scrapper.service.jpa.JpaTgChatService;
 @ConditionalOnProperty(prefix = "app", name = "database-access-type", havingValue = "jpa")
 @AllArgsConstructor
 public class JpaAccessConfiguration {
-
     private final JpaChatDao jpaChatDao;
     private final JpaChatLinkDao jpaChatLinkDao;
     private final JpaLinkDao jpaLinkDao;
