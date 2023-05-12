@@ -2,10 +2,10 @@ name: bot
 on:
   push:
     paths:
-      - 'bot/'
+      - 'bot/**'
   pull_request:
     paths:
-      - 'bot/'
+      - 'bot/**'
 
 env:
   REGISTRY: ghcr.io
