@@ -21,12 +21,7 @@ import java.util.List;
 @Log4j2
 public class ScrapperApplication {
     public static void main(String[] args) {
-        var context = SpringApplication.run(ScrapperApplication.class, args);
-        ApplicationConfig config = context.getBean(ApplicationConfig.class);
-        log.info("Hi");
-        BotClient botClient = context.getBean("botClient", BotClient.class);
-        botClient.sendNotification(new LinkUpdate(0L,
-                URI.create("https://github.com/piece-of-tart/tests"), "some description",
-                List.of(479240546L, 479240546L, 3L, 1000L)));
+        final var context = SpringApplication.run(ScrapperApplication.class, args);
+        final var config = context.getBean(ApplicationConfig.class);
     }
 }

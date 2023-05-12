@@ -18,8 +18,8 @@ public class BotClientRabbitMQImpl implements BotClient {
     }
 
     public void sendNotification(LinkUpdate linkUpdate) {
-        log.warn("rabbitTemplate.getMessageConverter(): " + rabbitTemplate.getMessageConverter());
+        log.debug("rabbitTemplate.getMessageConverter(): " + rabbitTemplate.getMessageConverter());
         rabbitTemplate.convertAndSend(binding.getExchange(), binding.getRoutingKey(), linkUpdate);
-        System.out.println("[x] Sent '" + linkUpdate + "' :to: " + binding.getExchange());
+        log.debug("[x] Sent '" + linkUpdate + "' :to: " + binding.getExchange());
     }
 }

@@ -37,7 +37,7 @@ public class CommandHandler {
         final String messageText = message.getText();
         final AbstractCommand lastCommand = lastCommandByChatId.get(message.getChatId());
 
-        log.warn("CHAT_ID:" + message.getChatId());
+        log.debug("CHAT_ID:" + message.getChatId());
 
         if (!registeredChatIds.contains(message.getChatId())) {
             if (!"/start".equals(messageText)) {

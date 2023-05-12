@@ -34,8 +34,9 @@ public class ApplicationConfig {
     public BotClient botClientWithoutQueue(@Value("${app.telegram.bot.base_url}") String baseUrl) {
         if (baseUrl != null) {
             return new BotClientImpl(baseUrl);
+        } else {
+            throw new IllegalStateException("[Scrapper app]: app.telegram.bot.base_url is not configure.");
         }
-        return new BotClientImpl();
     }
 
     @Bean(name = "botClient")

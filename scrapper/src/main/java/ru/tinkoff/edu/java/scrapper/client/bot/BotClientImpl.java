@@ -1,6 +1,7 @@
 package ru.tinkoff.edu.java.scrapper.client.bot;
 
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.tinkoff.edu.java.scrapper.dto.response.LinkUpdate;
@@ -9,14 +10,9 @@ import org.springframework.http.HttpStatusCode;
 
 @Log4j2
 public class BotClientImpl implements BotClient {
-    private static final String DEFAULT_URL = "http://localhost:8080";
     private final WebClient webClient;
 
-    public BotClientImpl() {
-        this(DEFAULT_URL);
-    }
-
-    public BotClientImpl(String baseUrl) {
+    public BotClientImpl(final String baseUrl) {
         this.webClient = WebClient.builder().baseUrl(baseUrl).build();
     }
 

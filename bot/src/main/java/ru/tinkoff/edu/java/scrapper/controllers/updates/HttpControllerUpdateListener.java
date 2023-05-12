@@ -13,15 +13,13 @@ import ru.tinkoff.edu.java.scrapper.dto.LinkUpdate;
 
 @Log4j2
 @RestController
-@RequestMapping("/")
+@RequestMapping
 @RequiredArgsConstructor
 public class HttpControllerUpdateListener {
-    @Autowired
-    private UpdateListener updateListener;
+    private final UpdateListener updateListener;
     @PostMapping("/update")
-    public ResponseEntity<?> updateLink(@Validated @RequestBody LinkUpdate linkUpdate) {
-        log.info(getClass().toString() + " - got link with updates: " + linkUpdate);
+    public void updateLink(@Validated @RequestBody LinkUpdate linkUpdate) {
+        log.debug(getClass().toString() + " - got link with updates: " + linkUpdate);
         updateListener.sendUpdatesToUser(linkUpdate);
-        return ResponseEntity.ok().build();
     }
 }
