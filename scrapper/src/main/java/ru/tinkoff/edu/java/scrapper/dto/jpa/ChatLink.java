@@ -1,20 +1,14 @@
 package ru.tinkoff.edu.java.scrapper.dto.jpa;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
-
-import java.io.Serializable;
 
 @Entity
 @Data
@@ -36,4 +30,3 @@ public class ChatLink {
     @Column(name = "description")
     private String description;
 }
-

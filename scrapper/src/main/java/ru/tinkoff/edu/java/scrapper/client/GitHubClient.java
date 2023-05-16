@@ -9,10 +9,10 @@ import ru.tinkoff.edu.java.scrapper.dto.response.GitHubResponse;
 @Component
 public class GitHubClient {
     private final WebClient webClient;
-    private final static String baseUrl = "https://api.github.com";
+    private final static String BASE_URL = "https://api.github.com";
 
     public GitHubClient() {
-        this(baseUrl);
+        this(BASE_URL);
     }
 
     public GitHubClient(String baseUrl) {

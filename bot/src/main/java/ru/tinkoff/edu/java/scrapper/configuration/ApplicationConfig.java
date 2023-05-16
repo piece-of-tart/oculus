@@ -10,5 +10,4 @@ import org.springframework.validation.annotation.Validated;
 @ConfigurationProperties(prefix = "swagger", ignoreInvalidFields = true)
 @ComponentScan("ru/tinkoff/edu/java/scrapper/dto")
 public class ApplicationConfig {
-
 }

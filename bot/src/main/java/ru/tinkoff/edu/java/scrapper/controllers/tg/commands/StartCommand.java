@@ -1,4 +1,4 @@
-package ru.tinkoff.edu.java.scrapper.tg.commands;
+package ru.tinkoff.edu.java.scrapper.controllers.tg.commands;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -15,8 +15,8 @@ public class StartCommand extends AbstractCommand {
         String wasRegisteredBefore = scrapperSender.registerNewUser(chatId);
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
-        sendMessage.setText("User with name " + message.getFrom().getUserName() + " " +
-                wasRegisteredBefore);
+        sendMessage.setText("User with name " + message.getFrom().getUserName()
+                + " " + wasRegisteredBefore);
         isDone = true;
         return sendMessage;
     }

@@ -1,4 +1,4 @@
-package ru.tinkoff.edu.java.scrapper.tg.commands;
+package ru.tinkoff.edu.java.scrapper.controllers.tg.commands;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;

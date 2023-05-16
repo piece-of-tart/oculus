@@ -12,17 +12,15 @@ import java.util.Arrays;
 
 @RestControllerAdvice
 public class ExceptionApiHandler {
-    @ExceptionHandler({MethodArgumentNotValidException.class, HttpMessageNotReadableException.class, MethodArgumentTypeMismatchException.class})
+    @ExceptionHandler({MethodArgumentNotValidException.class, HttpMessageNotReadableException.class,
+            MethodArgumentTypeMismatchException.class})
     public ResponseEntity<ApiErrorResponse> handleIncorrectBodyException(Exception e) {
-        return ResponseEntity.badRequest().body(getApiErrorResponse("Incorrect query parameters", "400", e));
+        return ResponseEntity.badRequest().body(
+                getApiErrorResponse("Incorrect query parameters", "400", e));
     }
 
     public static ApiErrorResponse getApiErrorResponse(String description, String code, Exception e) {
-        return new ApiErrorResponse(
-                description,
-                code,
-                e.getClass().getName(),
-                e.getMessage(),
+        return new ApiErrorResponse(description, code, e.getClass().getName(), e.getMessage(),
                 Arrays.stream(e.getStackTrace()).map(StackTraceElement::toString).toList());
     }
 }

@@ -2,6 +2,7 @@ package ru.tinkoff.edu.java.scrapper.client.dao.jdbc;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.random.RandomGenerator;
 
-@SpringBootTest
+@SpringBootTest(properties = { "app.database-access-type=jdbc" })
 public class JdbcChatTest extends IntegrationEnvironment {
     @Container
     public PostgreSQLContainer<?> postgresqlContainer = POSTGRES_SQL_CONTAINER;

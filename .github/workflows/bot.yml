@@ -1,0 +1,77 @@
+name: bot
+on:
+  push:
+    paths:
+      - 'bot/**'
+  pull_request:
+    paths:
+      - 'bot/**'
+
+env:
+  REGISTRY: ghcr.io
+  USERNAME: piece-of-tart
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  check-style:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 19
+        uses: actions/setup-java@v3
+        with:
+          java-version: '19'
+          distribution: 'temurin'
+
+      - name: Check code style
+        run: mvn -pl ./bot -am checkstyle:check
+
+
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 19
+        uses: actions/setup-java@v3
+        with:
+          java-version: '19'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build with Maven
+        run: mvn -f bot/pom.xml clean install
+
+      - name: Run tests
+        run: mvn -f bot/pom.xml test
+
+      - name: Build Bot application
+        run: mvn package -pl bot/
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: bot.jar
+          path: bot/target/bot-0.0.1-SNAPSHOT.jar
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build image
+        run: docker build bot/ -t $REGISTRY/$USERNAME/bot:latest
+
+      - name: Push image
+        run: docker push $REGISTRY/$USERNAME/bot:latest
+
+    needs: [check-style]

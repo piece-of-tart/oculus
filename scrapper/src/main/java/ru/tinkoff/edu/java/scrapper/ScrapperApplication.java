@@ -12,12 +12,13 @@ import ru.tinkoff.edu.java.scrapper.configuration.JpaAccessConfiguration;
 
 @SpringBootApplication
 @EnableScheduling
-@EnableConfigurationProperties(value = {ApplicationConfig.class, JdbcAccessConfiguration.class, JpaAccessConfiguration.class})
+@EnableConfigurationProperties(value = {ApplicationConfig.class, JdbcAccessConfiguration.class,
+        JpaAccessConfiguration.class})
 @Log4j2
 public class ScrapperApplication {
     public static void main(String[] args) {
-        var ctx = SpringApplication.run(ScrapperApplication.class, args);
-        ApplicationConfig config = ctx.getBean(ApplicationConfig.class);
-        log.info("Hi");
+        var context = SpringApplication.run(ScrapperApplication.class, args);
+        ApplicationConfig config = context.getBean(ApplicationConfig.class);
+        log.info("ScrapperApplicationContext successfully up.");
     }
 }

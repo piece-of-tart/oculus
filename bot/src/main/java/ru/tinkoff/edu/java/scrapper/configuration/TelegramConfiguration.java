@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 @Data
 @PropertySource(value = "classpath:application.properties")
 public class TelegramConfiguration {
-    @Value("${telegram.bot.name}") private String botName;
-    @Value("${telegram.bot.token}") private String botToken;
+    @Value("${telegram.bot.name}")
+    private String botName;
+    @Value("${telegram.bot.token}")
+    private String botToken;
 }

@@ -10,6 +10,7 @@ import ru.tinkoff.edu.java.scrapper.service.TgChatService;
 public class JpaTgChatService implements TgChatService {
 
     private final JpaChatDao jpaChatDao;
+
     @Override
     @Transactional
     public void register(long tgChatId) {
